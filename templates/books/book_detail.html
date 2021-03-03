@@ -1,0 +1,46 @@
+{% extends '_base.html' %}
+
+{% block title %}{{ book.title }}{% endblock title %}
+
+{% block content %}
+<div class="book-detail">
+    {% if book.cover %}
+    <img class="bookcover" src="{{ book.cover.url }}" alt="{{ book.title }}">
+    {% endif %}
+    <p></p>
+    <h2><a href="">{{book.title}}</a></h2>
+    <p>Author: {{ book.author }}</p>
+    <p>Price: {{ book.price }}$</p>
+    {% if Paid %}
+    <h3 style="color:green">Thank you for purchase!</h3>
+    {% else %}
+    <form method='get' action="{% url 'orders' book.pk %}">
+        {% csrf_token %}
+        <button value="{{ book.price }}" name="price" class="btn btn-success" type="submit">Buy</button>
+    </form>
+    {% endif %}
+<div>
+    <br>
+    <form action="" method="post">
+        {% csrf_token %}
+        <h4>{{ form }}</h4>
+        <p4></p4>
+        <button type="submit" class="btn btn-primary  btn-lg">Submit</button>
+    </form>
+        <br>
+    <h4>Reviews: </h4>
+<div class="card p-3">
+    {% for review in book.reviews.all %}
+        <figure class="p-3 mb-0">
+          <blockquote class="blockquote">
+            <p>{{ review.review }}</p>
+          </blockquote>
+          <figcaption class="blockquote-footer mb-0 text-muted">
+            {{ review.author }}
+          </figcaption>
+        </figure>
+    {% endfor %}
+      </div>
+</div>
+    </div>
+{% endblock content %}
